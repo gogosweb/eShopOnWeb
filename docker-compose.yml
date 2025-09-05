@@ -9,7 +9,7 @@ services:
     depends_on:
       - "sqlserver"
     environment:
-      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_ENVIRONMENT: Development
       # If the MVC app also uses the database directly, set this too:
       ConnectionStrings__CatalogConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
       # Persist ASP.NET Data Protection keys
@@ -26,7 +26,7 @@ services:
     depends_on:
       - "sqlserver"
     environment:
-      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_ENVIRONMENT: Development
       # DB connections
       ConnectionStrings__CatalogConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
       ConnectionStrings__IdentityConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.Identity;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
@@ -47,6 +47,7 @@ services:
 volumes:
   sql-edge-data:
   dp-keys:
+
 
 
 
