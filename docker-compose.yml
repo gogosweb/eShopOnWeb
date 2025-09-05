@@ -8,23 +8,35 @@ services:
       dockerfile: src/Web/Dockerfile
     depends_on:
       - "sqlserver"
+    environment:
+      # If the MVC app also uses the database directly, set this too:
+      ConnectionStrings__CatalogConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
+      # If your Program.cs tries to use Key Vault, ensure AZURE_KEY_VAULT_ENDPOINT is unset or valid
   eshoppublicapi:
-    image: ${DOCKER_REGISTRY-}eshoppublicapi
+    image: ${DOCKER_REGISTRY-}eshoppublicapi  
     build:
       context: .
       dockerfile: src/PublicApi/Dockerfile
     depends_on:
       - "sqlserver"
+    environment:
+      # DB connections
+      ConnectionStrings__CatalogConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
+      ConnectionStrings__IdentityConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.Identity;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
+      # Persist ASP.NET Data Protection keys
+      ASPNETCORE_DATA_PROTECTION__DIRECTORY: /keys
+      ASPNETCORE_DATA_PROTECTION__APPLICATIONDISCRIMINATOR: eshoppublicapi
+    volumes:
+      - dp-keys:/keys
   sqlserver:
     image: mcr.microsoft.com/azure-sql-edge
     ports:
       - "1434:1433"
+    volumes:
+      - sql-edge-data:/var/opt/mssql      
     environment:
       - SA_PASSWORD=@someThingComplicated1234
       - ACCEPT_EULA=Y
-      - MSSQL_TCP_PORT: "1434"     # change internal listener port
-
-
-
-
-
+volumes:
+  sql-edge-data:
+  dp-keys:
