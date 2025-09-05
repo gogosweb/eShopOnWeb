@@ -24,10 +24,10 @@ services:
       ConnectionStrings__CatalogConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
       ConnectionStrings__IdentityConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.Identity;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
       # Persist ASP.NET Data Protection keys
-      ASPNETCORE_DATA_PROTECTION__DIRECTORY: /keys
+      ASPNETCORE_DATA_PROTECTION__DIRECTORY: /root/.aspnet/DataProtection-Keys
       ASPNETCORE_DATA_PROTECTION__APPLICATIONDISCRIMINATOR: eshoppublicapi
     volumes:
-      - dp-keys:/keys
+      - dp-keys:/root/.aspnet/DataProtection-Keys
   sqlserver:
     image: mcr.microsoft.com/azure-sql-edge
     ports:
@@ -40,3 +40,4 @@ services:
 volumes:
   sql-edge-data:
   dp-keys:
+
