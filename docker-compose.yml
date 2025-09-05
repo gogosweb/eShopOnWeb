@@ -9,10 +9,17 @@ services:
     depends_on:
       - "sqlserver"
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       # If the MVC app also uses the database directly, set this too:
       ConnectionStrings__CatalogConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
+      # Persist ASP.NET Data Protection keys
+      ASPNETCORE_DATA_PROTECTION__DIRECTORY: /root/.aspnet/DataProtection-Keys
+      ASPNETCORE_DATA_PROTECTION__APPLICATIONDISCRIMINATOR: eshopwebmvc
+    volumes:
+      - dp-keys:/root/.aspnet/DataProtection-Keys
       # If your Program.cs tries to use Key Vault, ensure AZURE_KEY_VAULT_ENDPOINT is unset or valid
   eshoppublicapi:
+      ASPNETCORE_ENVIRONMENT: Development
     image: ${DOCKER_REGISTRY-}eshoppublicapi  
     build:
       context: .
@@ -40,4 +47,5 @@ services:
 volumes:
   sql-edge-data:
   dp-keys:
+
 
