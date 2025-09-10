@@ -14,7 +14,9 @@ services:
       ConnectionStrings__CatalogConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.CatalogDb;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
       # Persist ASP.NET Data Protection keys
       ASPNETCORE_DATA_PROTECTION__DIRECTORY: /root/.aspnet/DataProtection-Keys
-      ASPNETCORE_DATA_PROTECTION__APPLICATIONDISCRIMINATOR: eshopwebmvc
+      ASPNETCORE_DATA_PROTECTION__APPLICATIONDISCRIMINATOR: eshopwebmvc    
+    expose:
+      - "8081"
     volumes:
       - dp-keys:/root/.aspnet/DataProtection-Keys
       # If your Program.cs tries to use Key Vault, ensure AZURE_KEY_VAULT_ENDPOINT is unset or valid
@@ -32,7 +34,9 @@ services:
       ConnectionStrings__IdentityConnection: Server=sqlserver,1433;Database=Microsoft.eShopOnWeb.Identity;User Id=sa;Password=@someThingComplicated1234;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True
       # Persist ASP.NET Data Protection keys
       ASPNETCORE_DATA_PROTECTION__DIRECTORY: /root/.aspnet/DataProtection-Keys
-      ASPNETCORE_DATA_PROTECTION__APPLICATIONDISCRIMINATOR: eshoppublicapi
+      ASPNETCORE_DATA_PROTECTION__APPLICATIONDISCRIMINATOR: eshoppublicapi    
+    expose:
+      - "8081"
     volumes:
       - dp-keys:/root/.aspnet/DataProtection-Keys
   sqlserver:
@@ -47,6 +51,7 @@ services:
 volumes:
   sql-edge-data:
   dp-keys:
+
 
 
 
